@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-It - Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Custom styles for the color palette */
+    .bg-custom-dark {
+      background-color: #240A34; /* Dark color */
+    }
+    .bg-dark-BtnCH:hover {
+      background-color: #47066e; /* Dark color */
+    }
+    .bg-custom-cream {
+      background-color: #FFEDD8; /* Cream color */
+    }
+    .bg-custom-lighter-cream {
+      background-color: #f3f7f1; /* light Cream color */
+    }
+    .bg-custom-tan {
+      background-color: #DFD3C3; /* Tan color */
+    }
+    .bg-light-BtnC {
+      background-color:  #891652
+    }
+    .bg-light-BtnCH:hover{
+      background-color:  #c20e6b
+    }
+    .text-gradient-color{
+      background: linear-gradient( #f32170, #ff6b08); 
+      background-clip: border-box;
+      -webkit-text-fill-color: transparent; 
+      -webkit-background-clip: text; 
+    }
+  </style>
+</head>
+
+<body class="bg-[#F3EACD] w-full overflow-hidden">
+  <nav class="w-full bg-custom-dark text-white py-4 px-10">
+    <div class="container mx-auto flex justify-start">
+      <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
+      <div class='w-[50px] ml-6'><img src="./images/logo_img.png"/></div>
+    </div>
+  </nav>
+
+  <div class="container my-6 px-4 flex justify-center gap-24 items-center">
+    <div class="w-[420px] px-10 border-2 ml-14 border-[#240A34] bg-custom-cream rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4 text-custom-dark">Sign Up</h2>
+      <form action="/createUser" method="post" >
+        <div class="mb-2">
+          <label for="name" class="block font-bold text-custom-dark">Name:</label>
+          <input type="text" id="name" name="name" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+        </div>
+        <div class="mb-2">
+          <label for="age" class="block font-bold text-custom-dark">Age:</label>
+          <input type="number" id="age" name="age" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+        </div>
+        <div class="mb-2">
+          <label for="email" class="block font-bold text-custom-dark">Email:</label>
+          <input type="email" id="email" name="email" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+        </div>
+        <div class="mb-2">
+          <label for="username" class="block font-bold text-custom-dark">Username:</label>
+          <input type="text" id="username" name="username" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block font-bold text-custom-dark">Password:</label>
+          <input type="password" id="password" name="password" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+        </div>
+        <button type="submit" class="bg-custom-dark bg-dark-BtnCH text-white font-bold py-2 px-4 rounded-lg w-full mb-4">Sign Up</button>
+      </form>
+      <a href="/login" class="bg-light-BtnC text-white bg-light-BtnCH font-bold py-2 px-4 rounded-lg block text-center">Login</a>
+    </div>
+    <div class="w-[600px] h-[420px] flex justify-start"><img src="./images/posting_img2.jpg"/></div>
+  </div>
+
+  <!-- Add your JavaScript code here -->
+</body>
+</html>

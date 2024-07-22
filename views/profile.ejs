@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post-it profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Custom styles for the color palette */
+
+        /* googke font */
+        @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+        .bg-custom-dark {
+          background-color: #240A34; /* Dark color */
+        }
+        .bg-custom-light {
+          background-color: #FFEDD8; /* Light color */
+        }
+        .bg-custom-light2 {
+          background-color: #f9dcba; /* Light2 color */
+        }
+        .bg-custom-lighter-cream {
+          background-color: #f3f7f1; /* light Cream color */
+        }
+        .bg-custom-tan {
+          background-color: #DFD3C3; /* Tan color */
+        }
+        .bg-light-BtnC {
+          background-color:  #891652
+        }
+        .bg-light-BtnCH{
+          background-color:  #a0dfa6
+        }
+        .text-gradient-color{
+          background: linear-gradient( #f32170, #ff6b08); 
+          background-clip: border-box;
+          -webkit-text-fill-color: transparent; 
+          -webkit-background-clip: text; 
+        }
+        .text-custom-color{
+            color:#240A34;
+            font-family: "Jost";    
+            font-size: 40px;
+        }
+      </style>
+
+</head>
+<body class='bg-custom-light'>
+    <nav class="w-full bg-custom-dark text-white py-4 px-10">
+        <div class="container mx-auto flex justify-start">
+          <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
+          <div class='w-[50px] ml-6'><img src="./images/logo_img.png"/></div>
+        </div>
+    </nav>
+    <div class="w-full min-h-[calc(100vh-70px)] flex gap-7 justify-start p-7">
+        <div class="w-3/4 bg-custom-light2 rounded-lg shadow-lg p-5">
+            <h1 class="font-medium text-custom-color text-20">Hello, <%= user.name%></h1>
+        </div>
+        <div class="w-1/4 bg-custom-light2 rounded-lg shadow-lg">
+            <h1 class="font-medium text-custom-color text-20">Find Friends</h1>
+        </div>
+    </div>
+</body>
+</html>

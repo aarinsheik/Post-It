@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-It - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Custom styles for the color palette */
+    .bg-custom-dark {
+      background-color: #240A34; /* Dark color */
+    }
+    .bg-custom-light {
+      background-color: #bbd0a8; /* Light color */
+    }
+    .bg-custom-cream {
+      background-color: #FFEDD8; /* Cream color */
+    }
+    .bg-custom-lighter-cream {
+      background-color: #f3f7f1; /* light Cream color */
+    }
+    .bg-custom-tan {
+      background-color: #DFD3C3; /* Tan color */
+    }
+    .bg-light-BtnC {
+      background-color:  #891652
+    }
+    .bg-light-BtnCH{
+      background-color:  #a0dfa6
+    }
+    .text-gradient-color{
+      background: linear-gradient( #f32170, #ff6b08); 
+      background-clip: border-box;
+      -webkit-text-fill-color: transparent; 
+      -webkit-background-clip: text; 
+    }
+  </style>
+
+</head>
+<body class="bg-[#F3EACD] w-full overflow-hidden">
+  <nav class="w-full bg-custom-dark text-white py-4 px-10">
+    <div class="container mx-auto flex justify-start">
+      <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
+      <div class='w-[50px] ml-6'><img src="./images/logo_img.png"/></div>
+    </div>
+  </nav>
+
+  <div class="w-full h-full my-6 py-24 px-4 flex justify-center gap-20 items-center">
+    <div class="w-[400px] p-8 m-0 border-2 border-[#240A34] bg-custom-cream rounded-lg shadow-lg ">
+      <h2 class="text-2xl font-bold mb-4 text-custom-dark">Login</h2>
+      <form action="/loginUser" method="post">
+        <div class="mb-4">
+          <label for="email" class="block font-bold text-custom-dark">Email:</label>
+          <input type="email" id="email" name="email" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+
+          <% if( wrongEmail===true ){ %>
+           <h1 class="text-sm font-medium text-red-800">User Doesn't Exist !</h1>
+          <% } %>
+        </div>
+        <div class="mb-10">
+          <label for="password" class="block font-bold text-custom-dark">Password:</label>
+          <input type="password" id="password" name="password" class="bg-custom-cream border-b-2 border-black px-3 py-1 w-full outline-none mb-4" required>
+
+          <% if( wrongPW===true ){ %>
+          <h1 class="text-sm font-medium text-red-800 mt-1">Wrong Password</h1>
+           <% } %>
+        </div>
+        <button type="submit" class="bg-custom-dark hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg w-full mb-4">Login</button>
+      </form>
+      <a href="/signup" class="bg-light-BtnC text-white hover:bg-light-BtnCH font-bold py-2 px-4 rounded-lg block text-center">Sign Up</a>
+    </div>
+    <div class="w-[500px] h-[420px] flex justify-start"><img src="./images/posting_img.jpg"/></div>
+  </div>
+
+  <!-- Add your JavaScript code here -->
+</body>
+</html>
