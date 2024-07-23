@@ -35,6 +35,10 @@
       -webkit-text-fill-color: transparent; 
       -webkit-background-clip: text; 
     }
+    input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   </style>
 
 </head>
@@ -42,7 +46,7 @@
   <nav class="w-full bg-custom-dark text-white py-4 px-10">
     <div class="container mx-auto flex justify-start">
       <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
-      <div class='w-[50px] ml-6'><img src="./images/logo_img.png"/></div>
+      <div class='w-[50px] ml-6'><img src="/images/logo_img.png"/></div>
     </div>
   </nav>
 
@@ -70,7 +74,7 @@
       </form>
       <a href="/signup" class="bg-light-BtnC text-white hover:bg-light-BtnCH font-bold py-2 px-4 rounded-lg block text-center">Sign Up</a>
     </div>
-    <div class="w-[500px] h-[420px] flex justify-start"><img src="./images/posting_img.jpg"/></div>
+    <div class="w-[500px] h-[420px] flex justify-start"><img src="/images/posting_img.jpg"/></div>
   </div>
 
   <!-- Add your JavaScript code here -->

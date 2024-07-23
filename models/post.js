@@ -6,6 +6,14 @@ const postSchema = mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId ,
         ref : 'user'
     },
+    caption :{
+        type : String,
+        required: true
+    },
+    image : {
+        data: Buffer,
+        contentType: String
+    },
     date : {
         type : Date , 
         default : Date.now

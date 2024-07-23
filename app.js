@@ -5,6 +5,8 @@ const postModel = require('./models/post')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const multer = require('multer')
+const fs = require('fs');
 const app = express()
 
 app.use(cookieParser())
@@ -14,80 +16,178 @@ app.use(express.static(path.join(__dirname,'public')))
 
 app.set('view engine','ejs')
 
+
 app.get('/', (req , res)=>{
-    res.send('hey')
+    res.send('hey. This is Post it')
 })
+
+app.get('/error', (req , res)=>{
+    res.render('error')
+})
+
+//handling multer to upload images:
+
+const Storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './public/uploads')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      const ext = path.extname(file.originalname);                                   // Extract file extension
+      cb(null, file.fieldname + '-' + uniqueSuffix + ext);                           // Append extension
+    }
+  })
+  
+  const upload = multer({ 
+    storage: Storage,
+    fileFilter: function (req, file, cb) {
+        const allowedTypes = /jpeg|jpg|png|heic/;
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = ['image/jpeg', 'image/jpg', 'image/png', 'image/heic', 'application/octet-stream'].includes(file.mimetype);
+    
+        if (extname && mimetype) {
+          return cb(null, true);
+        } else {
+          console.log(extname , mimetype , file )
+          cb(new Error('Error: Images only!'));
+        }
+      }
+    
+   })
+
+// Uploads user post by saving it in post-model and updates the post ID in user-model's post-array
+app.post('/createPost/:uploaderId', upload.single('image'), async (req, res, next)=>{
+    
+    try{
+        // req.file is the `avatar` file
+        // req.body will hold the text fields, if there were any
+        const uploaderId = req.params.uploaderId
+        
+        // create a document of post in post-model
+        const createdPost = new postModel({
+            user : uploaderId,
+            caption : req.body.caption,
+            image : { data:req.file.filename, contentType : 'image/jpg'}
+        })
+        await createdPost.save()
+
+        // Update the user's posts array
+        const postUploadedUser = await userModel.findByIdAndUpdate(
+            {_id : uploaderId },
+            { $push: { post : createdPost._id } },              // Add the new post's ID to the user's posts array
+            { new: true }                                       // Return the updated user document
+        );
+
+        res.status(200).redirect('/profile')
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
+  })
+
 
 // rendering signup page
 app.get('/signup', (req, res)=>{
-    res.render('signup')
+    try{
+        res.render('signup')
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
 })
 
 // rendering login page
 app.get('/login', (req, res)=>{
-    res.render('login' , { wrongPW : false , wrongEmail : false })
+    try{
+        res.render('login' , { wrongPW : false , wrongEmail : false })
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
 })
 
 // creating a new user in DB when user sign's up and also saving a JWT token as cookie in their browser
 app.post('/createUser' ,async (req , res)=>{
     
-    const { name , age , email , username , password } = req.body
-
-    let user = await userModel.findOne({email})           // to check whether any other user exist with the same email
-    if( user ){
-        res.status(500).send('User already exist')
-    }else{
-
-        bcrypt.genSalt( 10 , (err, salt)=>{
-            bcrypt.hash( password , salt , async (err, hash)=>{
-
-                let newUser = await userModel.create({
-                    name ,
-                    age , 
-                    email ,
-                    username ,
-                    password : hash
+    try{
+        const { name , age , email , username , password } = req.body
+    
+        let user = await userModel.findOne({email})           // to check whether any other user exist with the same email
+        if( user ){
+            res.status(500).send('User already exist')
+        }else{
+    
+            bcrypt.genSalt( 10 , (err, salt)=>{
+                bcrypt.hash( password , salt , async (err, hash)=>{
+    
+                    let newUser = await userModel.create({
+                        name ,
+                        age , 
+                        email ,
+                        username ,
+                        password : hash
+                    })
+    
+                    console.log('new user created : ', newUser)
+                    let token = jwt.sign( {email : email , userId : newUser._id} , 'secretCode')
+                    res.cookie('token', token)
+                    res.status(200).redirect('/profile')
                 })
-
-                console.log('new user created : ', newUser)
-                let token = jwt.sign( {email : email , userId : newUser._id} , 'secretCode')
-                res.cookie('token', token)
-                res.send('account created')
             })
-        })
+        }
+        
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
     }
 })
 
 // logging in the user by saving a jwt token as a cookie in their browser
 app.post('/loginUser' , async (req, res)=>{
 
-    const { email , password } = req.body
-
-    let user = await userModel.findOne({email})
-    if( !user ){
-        res.render('login' ,{ wrongPW : false , wrongEmail : true } )
-    }else{
-
-        bcrypt.compare( password , user.password , ( err, result)=>{       //checking the password
-
-            if( result ){
-
-                console.log('logged In user : ', user)
-                let token = jwt.sign( {email : user.email , userId : user._id} , 'secretCode')
-                res.cookie('token', token)
-                res.status(200).redirect('/profile')
-
-            }else{
-                res.render('login' ,{ wrongPW : true , wrongEmail : false })
-            }
-        })
+    try{
+        const { email , password } = req.body
+    
+        let user = await userModel.findOne({email})
+        if( !user ){
+            res.render('login' ,{ wrongPW : false , wrongEmail : true } )
+        }else{
+    
+            bcrypt.compare( password , user.password , ( err, result)=>{       //checking the password
+    
+                if( result ){
+    
+                    console.log('logged In user : ', user)
+                    let token = jwt.sign( {email : user.email , userId : user._id} , 'secretCode')
+                    res.cookie('token', token)
+                    res.status(200).redirect('/profile')
+    
+                }else{
+                    res.render('login' ,{ wrongPW : true , wrongEmail : false })
+                }
+            })
+        }  
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
     }
 })
 
 // by logging out, we remove the jwt token saved in their browser and redirects to login page.
 app.get('/logout', (req, res)=>{
-    res.cookie('token','')
-    res.redirect('/login')
+    try{
+        res.cookie('token','')
+        res.redirect('/login')
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
 })
 
 // rendering profile page after logging in. ( it is protected by a middleware function (isLoggedIn) 
@@ -95,20 +195,109 @@ app.get('/logout', (req, res)=>{
 
 app.get('/profile', isLoggedIn , async (req,res)=>{
     
-    const user = await userModel.findOne({ _id : req.user.userId })
-    res.render('profile',{ user })
+    try{
+        const user = await userModel.findOne({ _id : req.user.userId })          
+        const otherUser = await userModel.find({ _id: { $ne: req.user.userId } })
+        const userPosts = await postModel.find({ user:  req.user.userId });
+        res.render('profile',{ user , otherUser, userPosts })
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+// rendering update page to edit user Details :
+app.get('/editUserProfile/:userId', async (req, res)=>{
+
+    try{
+        const user = await userModel.findOne({_id : req.params.userId})
+        res.render('edit', {user})
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+// to update the user edit details in user-model and redirect to profile page
+app.post('/editUser/:userId' , async (req, res)=>{  
+    
+    try{
+        const { name , age , username } = req.body
+        console.log( req.body )
+    
+        const editedUser = await userModel.findOneAndUpdate(
+            { _id : req.params.userId },
+            {
+                name ,
+                age ,
+                username
+            },
+            { new:true }
+        )
+    
+        res.redirect('/profile')
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+// to delete the users account 
+app.get('/deleteUserProfile/:userId', async (req, res)=>{
+
+    try{
+        const deletedUser = await userModel.findOneAndDelete({_id : req.params.userId} , {new:true})
+        console.log('Deleted User : ', deletedUser)
+        res.cookie.token = ''
+        res.redirect('/signup')
+    }
+    catch (err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+// delete posts and redirects profile page :
+app.get('/deletePost/:postId', async (req, res)=>{
+    try{
+        const post = await postModel.findOne({_id : req.params.postId })
+
+        await userModel.findByIdAndUpdate(post.user, {
+            $pull: { post: post._id }                             // Remove post ID from user's post array
+        });
+
+        const deletedPost = await postModel.findOneAndDelete({_id : req.params.postId} , {new:true})
+        console.log('deleted post', deletedPost )
+
+        // Delete the image file associated with the post
+        if (post.image && post.image.data) {
+            
+            const imagePath = path.join(__dirname, 'public/uploads', `${post.image.data}`);
+            fs.unlink(imagePath, (err) => {
+                if (err) console.error('Failed to delete image:', err);
+            });
+        }
+
+        res.redirect('/profile')
+    }
+    catch(err){
+        console.log(err)
+        res.redirect('/error')
+    }
 })
 
 // middleware to check whether user have their JWT token
 function isLoggedIn( req , res , next ){
     
-    if(req.cookies.token === ''){
+    if( !req.cookies.token ){
         res.redirect('/login')
-        next()
     }
     else{
         let cookieData = jwt.verify(req.cookies.token , 'secretCode')
-        req.user = cookieData
+        req.user = cookieData                                              // req.user will contain : {email : user.email , userId : user._id}
         next()
     }
 }
