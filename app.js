@@ -56,13 +56,12 @@ const Storage = multer.diskStorage({
    })
 
 // Uploads user post by saving it in post-model and updates the post ID in user-model's post-array
-app.post('/createPost/:uploaderId', upload.single('image'), async (req, res, next)=>{
+app.post('/createPost', isLoggedIn , upload.single('image'), async (req, res, next)=>{
     
     try{
         // req.file is the `avatar` file
         // req.body will hold the text fields, if there were any
-        const uploaderId = req.params.uploaderId
-        
+        const uploaderId = req.user.userId
         // create a document of post in post-model
         const createdPost = new postModel({
             user : uploaderId,
@@ -81,7 +80,7 @@ app.post('/createPost/:uploaderId', upload.single('image'), async (req, res, nex
         res.status(200).redirect('/profile')
     }
     catch (err){
-        console.log(err)
+        console.log('error in uploading post',err)
         res.redirect('/error')
     }
   })
@@ -208,10 +207,11 @@ app.get('/profile', isLoggedIn , async (req,res)=>{
 })
 
 // rendering update page to edit user Details :
-app.get('/editUserProfile/:userId', async (req, res)=>{
+app.get('/editUserProfile', isLoggedIn , async (req, res)=>{
 
     try{
-        const user = await userModel.findOne({_id : req.params.userId})
+        const editUserId = req.user.userId
+        const user = await userModel.findOne({_id : editUserId})
         res.render('edit', {user})
     }
     catch (err){
@@ -221,14 +221,15 @@ app.get('/editUserProfile/:userId', async (req, res)=>{
 })
 
 // to update the user edit details in user-model and redirect to profile page
-app.post('/editUser/:userId' , async (req, res)=>{  
+app.post('/editUser', isLoggedIn , async (req, res)=>{  
     
     try{
+        const editUserId = req.user.userId
         const { name , age , username } = req.body
         console.log( req.body )
     
         const editedUser = await userModel.findOneAndUpdate(
-            { _id : req.params.userId },
+            { _id : editUserId },
             {
                 name ,
                 age ,
@@ -246,10 +247,11 @@ app.post('/editUser/:userId' , async (req, res)=>{
 })
 
 // to delete the users account 
-app.get('/deleteUserProfile/:userId', async (req, res)=>{
+app.get('/deleteUserProfile', isLoggedIn , async (req, res)=>{
 
     try{
-        const deletedUser = await userModel.findOneAndDelete({_id : req.params.userId} , {new:true})
+        const deleteUserId = req.user.userId
+        const deletedUser = await userModel.findOneAndDelete({_id : deleteUserId} , {new:true})
         console.log('Deleted User : ', deletedUser)
         res.cookie.token = ''
         res.redirect('/signup')
@@ -289,6 +291,75 @@ app.get('/deletePost/:postId', async (req, res)=>{
     }
 })
 
+//adding like to the post 
+app.get('/likePost/:postId' , isLoggedIn , async (req, res)=>{
+
+    try{
+        const likerId = req.user.userId                  // gets the likerId from the isLoggedIn middleware function
+        const postId = req.params.postId
+    
+        const likedPost = await postModel.findByIdAndUpdate(
+            {_id : postId },
+            { $push: { likes : likerId } },             
+            { new: true }                                       
+        ); 
+
+        console.log('liked post :' , likedPost)
+
+        const referer = req.get('referer');            // this will get the route from which the request arrived. hence, we can route to same page.
+        res.redirect(referer)
+    }
+    catch(err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+// unliking the post 
+app.get('/unLikePost/:postId' , isLoggedIn , async (req, res)=>{
+
+    try{
+        const likerId = req.user.userId
+        const postId = req.params.postId
+    
+        const likedPost = await postModel.findByIdAndUpdate(
+            {_id : postId },
+            { $pull: { likes : likerId } },             
+            { new: true }                                       
+        ); 
+
+        console.log('unliked post :' , likedPost)
+
+        const referer = req.get('referer');            // this will get the route from which the request arrived. hence, we can route to same page.
+        res.redirect(referer)
+    }
+    catch(err){
+        console.log(err)
+        res.redirect('/error')
+    }
+})
+
+//View Others Profile
+app.get('/othersProfile/:otherUserId' , isLoggedIn ,  async (req, res)=>{
+    try{
+        const othersProfileId = req.params.otherUserId 
+        const userId = req.user.userId 
+        
+        console.log('other Id ; ',othersProfileId)
+        
+        const otherUserPosts = await postModel.find({ user : othersProfileId });
+        const othersProfile = await userModel.findOne({_id : othersProfileId })
+        const otherUser = await userModel.find({ _id: { $nin: [userId, othersProfileId] } });   // this will send only those users which are none other than user itself and user who's profile is been viewed
+
+        res.render( 'othersProfile', { othersProfile , otherUserPosts , otherUser , userId } )
+
+    } 
+    catch(err){
+        console.log('err in others profile page : \n', err)
+        res.redirect('/error')
+    }
+}) 
+
 // middleware to check whether user have their JWT token
 function isLoggedIn( req , res , next ){
     
@@ -305,5 +376,8 @@ function isLoggedIn( req , res , next ){
 
 //server listenning in port 3000
 app.listen( 3000, (err)=>{
-    console.log('Server listenning on port 3000 ...')
+    console.log('Server listenning on port 3000 ...\n\
+        homepage - http://localhost:3000 \n\
+        signup - http://localhost:3000/signup \n\
+        login - http://localhost:3000/login ')
 })
