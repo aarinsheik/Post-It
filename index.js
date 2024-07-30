@@ -259,9 +259,12 @@ app.get('/deleteUserProfile', isLoggedIn , async (req, res)=>{
 
     try{
         const deleteUserId = req.user.userId
+        const deletedUserPosts = await postModel.deleteMany({ user: deleteUserId }, {new:true})
         const deletedUser = await userModel.findOneAndDelete({_id : deleteUserId} , {new:true})
-        
+
         console.log('Deleted User : ', deletedUser)
+        console.log('Deleted User Posts : ', deletedUserPosts)
+        
         res.cookie.token = ''
         res.redirect('/signup')
     }
