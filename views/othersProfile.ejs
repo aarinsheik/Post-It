@@ -10,7 +10,7 @@
     <style>
         /* Custom styles for the color palette */
 
-        /* googke font */
+        /* google font */
         @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
         .bg-custom-dark {
@@ -48,59 +48,50 @@
             color:#FFEDD8;
             font-family: "Jost";    
         }
-      
-
-      </style>
+    </style>
 
 </head>
 <body class='bg-custom-light'>
   
-    <nav class="w-full bg-custom-dark text-white py-4 px-10">
+    <nav class="w-full bg-custom-dark text-white py-4 px-4 lg:px-10">
       <div class="container mx-auto flex items-center">
         <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
         <div class="w-[50px] ml-6">
           <img src="../images/logo_img.png" alt="Logo"/>
         </div>
-        <div class="ml-auto text-custom-light text-[20px] border-2 border-[#FFEDD8] hover:border-[#fbc486] hover:text-[#fbc486]  rounded-full px-4 py-1">
+        <div class="ml-auto text-custom-light text-[20px] border-2 border-[#FFEDD8] hover:border-[#fbc486] hover:text-[#fbc486] rounded-full px-4 py-1">
           <a href="/profile">My Profile</a>
         </div>
       </div>
     </nav>
   
     <!-- Main container div -->
-    <div class="w-full min-h-[calc(100vh-75px)] flex gap-7 justify-start p-7">
+    <div class="w-full min-h-[calc(100vh-75px)] flex flex-col lg:flex-row gap-7 justify-start p-4 lg:p-7">
 
         <!-- your profile div -->
-        <div class="w-3/4 bg-custom-light2 rounded-lg shadow-lg px-7 py-5">
-            <span class="font-medium text-custom-dark text-[30px] ">its Me, <%= othersProfile.name %></span>
-            <h1 class="font-normal text-custom-dark text-[20px]">@<%= othersProfile.username %>, Age <%=othersProfile.age%> </h1>  
+        <div class="w-full lg:w-3/4 bg-custom-light2 rounded-lg shadow-lg px-4 lg:px-7 py-5">
+            <span class="font-medium text-custom-dark text-[30px]">It's Me, <%= othersProfile.name %></span>
+            <h1 class="font-normal text-custom-dark text-[20px]">@<%= othersProfile.username %>, Age <%= othersProfile.age %></h1>  
 
-            <div class="w-full h-0.5 bg-custom-dark my-5"></div>
+            <div class="w-full h-[1px] bg-custom-dark my-5"></div>
 
             <!-- View post div-->
             <div class="posts mt-10">
-              <h1><span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] ">My Posts</span></h1>
-              <div class="grid grid-cols-3 gap-4 mt-10">
-
-                <% if( otherUserPosts.length == 0 ){ %>
-                  <h1><span class="font-medium text-custom-dark text-[20px] ">No posts yet...</span></h1>
-                <% }else{ %>
-
-                  <% otherUserPosts.forEach((post) => { %>
-
+              <h1><span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34]">My Posts</span></h1>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+                <% if (otherUserPosts.length == 0) { %>
+                  <h1><span class="font-medium text-custom-dark text-[20px]">No posts yet...</span></h1>
+                <% } else { %>
+                  <% otherUserPosts.reverse().forEach((post) => { %>
                     <div class="bg-custom-light rounded-lg shadow-md p-4">
                       <img src="/uploads/<%= post.image.data %>" alt="Post Image" class="w-full h-48 object-cover rounded-lg mb-2">
-                      <h1 class="text-custom-dark italic text-lg"> <%= post.caption %></h1>
-
-                      <% if( !post.likes.includes(userId) ){ %>
-                        <a href="/likePost/<%= post._id %>"><span class="float-left mt-1 ml-1 "><i class="fa-regular fa-heart" style="color: #240A34;"></i></span></a><span class="ml-1 relative top-1 "><%= post.likes.length %></span>
-                        <% }else{ %>
-                          <a href="/unLikePost/<%= post._id %>"><span class="float-left mt-1 ml-1 "><i class="fa-solid fa-heart" style="color: #ff2929;"></i></span></a><span class="ml-1 relative top-1 "><%= post.likes.length %></span>
+                      <h1 class="text-custom-dark italic text-lg"><%= post.caption %></h1>
+                      <% if (!post.likes.includes(userId)) { %>
+                        <a href="/likePost/<%= post._id %>"><span class="float-left mt-1 ml-1"><i class="fa-regular fa-heart" style="color: #240A34;"></i></span></a><span class="ml-1 relative top-1"><%= post.likes.length %></span>
+                      <% } else { %>
+                        <a href="/unLikePost/<%= post._id %>"><span class="float-left mt-1 ml-1"><i class="fa-solid fa-heart" style="color: #ff2929;"></i></span></a><span class="ml-1 relative top-1"><%= post.likes.length %></span>
                       <% } %>
-
-                      <span class="float-right mt-2 font-medium text-custom-dark text-sm border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652] rounded-full px-3 cursor-pointer"><a href="/deletePost/<%=post._id %>">delete</a></span>
                     </div>
-
                   <% }) %>
                 <% } %>
               </div>  
@@ -111,17 +102,14 @@
         <!-- your profile div end-->
 
         <!-- finding friends div -->
-        <div class="w-1/4 bg-custom-light2 rounded-lg shadow-lg px-5 py-5">
-            <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] ">Find Friends</span>
+        <div class="w-full lg:w-1/4 bg-custom-light2 rounded-lg shadow-lg px-4 lg:px-5 py-5">
+            <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34]">Find Friends</span>
             <div class="w-full h-full mt-10 flex flex-col items-center gap-2">
-
-              <% otherUser.forEach( (user)=>{ %>
-
-                <a href='/othersProfile/<%= user._id %>' class="w-full bg-custom-light rounded shadow-sm py-2 px-4 cursor-pointer">
-                  <span class="text-xl font-medium tracking-tight "> <%= user.name %></span><span class="float-right"> age, <%= user.age %></span>
-                  <p class="text-md font-normal tracking-tight ">@<%= user.username %></p>
+              <% otherUser.forEach((user) => { %>
+                <a href='/othersProfile/<%= user._id %>' class="w-full bg-custom-light hover:bg-[#ffe9d0] transition duration-3000 rounded shadow-sm py-2 px-4 cursor-pointer">
+                  <span class="text-xl font-medium tracking-tight"><%= user.name %></span><span class="float-right">age, <%= user.age %></span>
+                  <p class="text-md font-normal tracking-tight">@<%= user.username %></p>
                 </a>
-                
               <% }) %>
             </div>
         </div>
@@ -129,7 +117,6 @@
 
     </div>
     <!-- Main container div end -->
-
 
 </body>    
 </html>

@@ -31,9 +31,6 @@
         .bg-light-BtnC {
           background-color:  #891652
         }
-        .bg-light-BtnCH{
-          background-color:  #a0dfa6
-        }
         .text-gradient-color{
           background: linear-gradient( #f32170, #ff6b08); 
           background-clip: border-box;
@@ -48,118 +45,102 @@
             color:#FFEDD8;
             font-family: "Jost";    
         }
-      </style>
-
+    </style>
 </head>
 <body class='bg-custom-light'>
-  
-    <nav class="w-full bg-custom-dark text-white py-4 px-10">
+    <nav class="w-full bg-custom-dark text-white py-4 px-4 lg:px-10">
       <div class="container mx-auto flex items-center">
         <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
         <div class="w-[50px] ml-6">
           <img src="./images/logo_img.png" alt="Logo"/>
         </div>
-        <div class="ml-auto text-custom-light text-[20px] border-2 border-[#FFEDD8] hover:border-[#fbc486] hover:text-[#fbc486]  rounded-full px-4 py-1">
+        <div class="ml-auto text-custom-light text-[20px] border-2 border-[#FFEDD8] hover:border-[#fbc486] hover:text-[#fbc486] rounded-full px-4 py-1">
           <a href="/logout">Logout</a>
         </div>
       </div>
     </nav>
-  
+
     <!-- Main container div -->
-    <div class="w-full min-h-[calc(100vh-75px)] flex gap-7 justify-start p-7">
+    <div class="w-full min-h-[calc(100vh-75px)] flex flex-col lg:flex-row gap-7 justify-start p-4 lg:p-7">
 
         <!-- your profile div -->
-        <div class="w-3/4 bg-custom-light2 rounded-lg shadow-lg px-7 py-5">
-            <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] ">Hello, <%= user.name %></span>
-            <span class="float-right mt-4 ml-4 font-medium text-custom-dark text-[15px] border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652]  rounded-full px-4 py-1 cursor-pointer"><button id="deleteProfileButton">Delete profile</button></span>
-            <span class="float-right mt-4 font-medium text-custom-dark text-[15px] border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652]  rounded-full px-4 py-1 cursor-pointer"><a href="/editUserProfile"> Edit profile </a></span>
+        <div class="w-full lg:w-3/4 bg-custom-light2 rounded-lg shadow-lg px-4 lg:px-7 py-5">
+            <div class="flex flex-col sm:flex-row justify-between items-start">
+                <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] mb-4 sm:mb-0">Hello, <%= user.name %></span>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
+                    <span class="font-medium text-custom-dark text-[15px] border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652] rounded-full px-4 py-1 cursor-pointer"><button id="deleteProfileButton">Delete profile</button></span>
+                    <span class="font-medium text-custom-dark text-[15px] border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652] rounded-full px-4 py-1 cursor-pointer"><a href="/editUserProfile"> Edit profile </a></span>
+                </div>
+            </div>
 
             <!-- upload post div -->
             <div class="text-custom-dark font-lato flex flex-col justify-center items-start">
-
-              <h1 class="text-2xl font-normal mt-8 mb-4">Upload your Post </h1>
-              
+              <h1 class="text-2xl font-normal mt-8 mb-4">Upload your Post</h1>
               <form action="/createPost" method="post" enctype="multipart/form-data" class="w-full max-w-lg">
-                  
                   <div class="mb-6">
                       <label for="caption" class="block uppercase text-sm font-medium mb-1">Caption <span class="float-right normal-case font-normal italic">This caption should be descriptive</span></label>
                       <input type="text" name="caption" id="caption" required class="block w-full p-2 bg-white bg-opacity-20 border border-white border-opacity-30 text-custom-dark font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 hover:bg-opacity-50 transition-1000"/>
                   </div>
-                  
                   <div class="mb-6 relative">
                       <label for="images" class="block uppercase text-sm font-medium mb-1">Images <span class="float-right normal-case font-normal italic">Your images should be at least 400x300 wide</span></label>  
                       <input onchange="handleFileUpload(event)" type="file" name="image" id="image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" required multiple/>
-                      <div class="file-area file-dummy w-full p-8 bg-white bg-opacity-20 hover:bg-opacity-50 border-2 border-dashed border-white border-opacity-7 0 text-center transition-all ease-in-out">
-                              <div class="success hidden">Great, your files are selected. Keep on.</div>
-                              <div class="default">Please select some files</div>
-                              <div id="file-names" class="text-white mt-2"></div>
-                    </div> 
+                      <div class="file-area file-dummy w-full p-8 bg-white bg-opacity-20 hover:bg-opacity-50 border-2 border-dashed border-white border-opacity-70 text-center transition-all ease-in-out">
+                          <div class="success hidden">Great, your files are selected. Keep on.</div>
+                          <div class="default">Please select some files</div>
+                          <div id="file-names" class="text-white mt-2"></div>
+                      </div>
                   </div>
-                  
                   <div class="mb-6">
                       <button type="submit" class="p-2 text-sm bg-transparent text-custom-dark uppercase font-semibold focus:outline-none hover:bg-opacity-90 border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652] rounded-full px-3 py-1 cursor-pointer">Upload images</button>
                   </div>
               </form>
             </div>
-            <!-- upload post div end   -->
+            <!-- upload post div end -->
 
             <div class="w-full h-0.5 bg-custom-dark my-5"></div>
 
             <!-- View post div-->
             <div class="posts mt-10">
-              <h1><span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] ">Yours Posts</span></h1>
-              <div class="grid grid-cols-3 gap-4 mt-10">
-
+              <h1><span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34]">Your Posts</span></h1>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
                 <% if( userPosts.length == 0 ){ %>
-                  <h1><span class="font-medium text-custom-dark text-[20px] ">No posts yet...</span></h1>
+                  <h1><span class="font-medium text-custom-dark text-[20px]">No posts yet...</span></h1>
                 <% }else{ %>
-
-                  <% userPosts.forEach((post) => { %>
-
+                  <% userPosts.reverse().forEach((post) => { %>
                     <div class="bg-custom-light rounded-lg shadow-md p-4">
                       <img src="/uploads/<%= post.image.data %>" alt="Post Image" class="w-full h-48 object-cover rounded-lg mb-2">
-                      <h1 class="text-custom-dark italic text-lg"> <%= post.caption %></h1>
-
+                      <h1 class="text-custom-dark italic text-lg"><%= post.caption %></h1>
                       <% if( !post.likes.includes(user._id) ){ %>
-                        <a href="/likePost/<%= post._id %>"><span class="float-left mt-1 ml-1 "><i class="fa-regular fa-heart" style="color: #240A34;"></i></span></a><span class="ml-1 relative top-1 "><%= post.likes.length %></span>
-                        <% }else{ %>
-                          <a href="/unLikePost/<%= post._id %>"><span class="float-left mt-1 ml-1 "><i class="fa-solid fa-heart" style="color: #ff2929;"></i></span></a><span class="ml-1 relative top-1 "><%= post.likes.length %></span>
+                        <a href="/likePost/<%= post._id %>"><span class="float-left mt-1 ml-1"><i class="fa-regular fa-heart" style="color: #240A34;"></i></span></a><span class="ml-1 relative top-1"><%= post.likes.length %></span>
+                      <% }else{ %>
+                        <a href="/unLikePost/<%= post._id %>"><span class="float-left mt-1 ml-1"><i class="fa-solid fa-heart" style="color: #ff2929;"></i></span></a><span class="ml-1 relative top-1"><%= post.likes.length %></span>
                       <% } %>
-
                       <span class="float-right mt-2 font-medium text-custom-dark text-sm border-2 border-[#240A34] hover:border-[#891652] hover:text-[#891652] rounded-full px-3 cursor-pointer"><a class="deletePost" href="/deletePost/<%=post._id %>">delete</a></span>
                     </div>
-
                   <% }) %>
                 <% } %>
-              </div>  
+              </div>
             </div>
             <!-- View post div end -->
-
-        </div>  
+        </div>
         <!-- your profile div end-->
 
         <!-- finding friends div -->
-        <div class="w-1/4 bg-custom-light2 rounded-lg shadow-lg px-5 py-5">
-            <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34] ">Find Friends</span>
+        <div class="w-full lg:w-1/4 bg-custom-light2 rounded-lg shadow-lg px-4 lg:px-5 py-5">
+            <span class="font-medium text-custom-dark text-[30px] border-b-4 rounded px-2 border-[#240A34]">Find Friends</span>
             <div class="w-full h-full mt-10 flex flex-col items-center gap-2">
-
               <% otherUser.forEach( (user)=>{ %>
-
-                <a href='/othersProfile/<%= user._id %>' class="w-full bg-custom-light rounded shadow-sm py-2 px-4 cursor-pointer">
-                  <span class="text-xl font-medium tracking-tight "> <%= user.name %></span><span class="float-right"> age, <%= user.age %></span>
-                  <p class="text-md font-normal tracking-tight ">@<%= user.username %></p>
+                <a href='/othersProfile/<%= user._id %>' class="w-full bg-custom-light hover:bg-[#ffe9d0] transition duration-3000 rounded shadow-sm py-2 px-4 cursor-pointer">
+                  <span class="text-xl font-medium tracking-tight"><%= user.name %></span><span class="float-right">age, <%= user.age %></span>
+                  <p class="text-md font-normal tracking-tight">@<%= user.username %></p>
                 </a>
-                
               <% }) %>
             </div>
         </div>
         <!-- finding friends div end -->
-
     </div>
     <!-- Main container div end -->
 
-    
-    
     <script>
       async function handleFileUpload(event) {
           const input = event.target;
@@ -186,7 +167,7 @@
           fileArea.classList.add('bg-opacity-90');
         }
 
-        //handling delete operation for profile :
+        //handling delete operation for profile:
         document.getElementById('deleteProfileButton').addEventListener('click', function() {
         const userConfirmed = confirm('Are you sure you want to delete your profile?');
         if (userConfirmed) {
@@ -194,7 +175,7 @@
           }
         });
 
-        //handling delete operation for post :
+        //handling delete operation for post:
         document.querySelectorAll('.deletePost').forEach(button => {
           button.addEventListener('click', function(event) {
               event.preventDefault();
@@ -205,6 +186,6 @@
           });
         });
 
-  </script>
-</body>    
+    </script>
+</body>
 </html>

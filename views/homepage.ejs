@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post-It - homepage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Custom styles for the color palette */
+    .bg-custom-dark {
+      background-color: #240A34; /* Dark color */
+    }
+    .bg-dark-BtnCH:hover {
+      background-color: #47066e; /* Dark color */
+    }
+    .bg-custom-cream {
+      background-color: #FFEDD8; /* Cream color */
+    }
+    .bg-custom-lighter-cream {
+      background-color: #f3f7f1; /* light Cream color */
+    }
+    .bg-custom-tan {
+      background-color: #DFD3C3; /* Tan color */
+    }
+    .text-custom-light1 {
+      color:  #D20062
+    }
+    .text-custom-light2 {
+      color:  #FFEDD8
+    }
+    .text-custom-dark1{
+        color:#240A34;
+    }
+    .text-gradient-color{
+      background: linear-gradient( #f32170, #ff6b08); 
+      background-clip: border-box;
+      -webkit-text-fill-color: transparent; 
+      -webkit-background-clip: text; 
+    }
+    input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F3EACD]">
+  
+    <section class="w-full min-h-[100vh]">  
+        <nav class="w-full bg-custom-dark text-white py-4 px-4 lg:px-10">
+            <div class="container mx-auto flex justify-between items-center">
+              <div class="flex items-center">
+                <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
+                <div class='w-[50px] ml-6'><img src="/images/logo_img.png"/></div>
+              </div>
+            </div>
+        </nav>
+
+        <div class="w-full py-6 px-4 lg:h-[calc(100vh-20px)] flex flex-col lg:flex-row justify-center gap-8 lg:gap-24 items-center">
+            <div class="w-full lg:w-1/2 lg:ml-7 py-5">
+                <h1 class="text-4xl lg:text-6xl text-custom-dark1 font-bold tracking-tight">Post-it </h1>
+                <h1 class="text-2xl lg:text-4xl text-custom-dark1 font-bold tracking-tight my-1">Wanna post, <span class="text-custom-light1">Don't Wait !</span></h1>
+                <p class="text-md lg:text-lg font-semibold text-custom-dark1 text-justify w-full mt-6 lg:mt-10">
+                    Discover Post-It, the ultimate social media hub where you can share your favorite photos, 
+                    connect with friends, and dive into their latest posts. Join our vibrant community and 
+                    experience the thrill of staying connected, all in one place. Post-It: Capture, Connect, 
+                    and Explore!
+                </p>
+                
+                <div class="w-full mt-6 lg:mt-8 flex justify-start items-start gap-4 lg:gap-6">
+                    <a href="/login" class="font-semibold tracking-wide text-lg lg:text-2xl text-[#fbc486] bg-[#240A34] border-2 border-[#240A34] hover:border-2 hover:border-[#240A34] hover:bg-transparent hover:text-[#240A34] transition duration-4000 rounded-full px-4 py-1" >Login</a>
+                    <a href="/signup" class="font-semibold tracking-wide text-lg lg:text-2xl border-2 border-[#240A34] hover:bg-[#240A34] hover:text-[#fbc486] transition duration-2000 rounded-full px-4 py-1" >Signup</a>
+                </div>
+            </div>
+            <div class="w-full lg:w-[650px] h-[350px] lg:h-[470px] flex justify-center image-cover">
+                <img src="/images/homepage_img.png" class="object-contain max-h-full">
+            </div>
+        </div>
+    </section>
+
+    <footer class="w-full m-0 py-10 px-8 bg-custom-dark">
+        <div class="text-3xl inline-block w-fit text-custom-light2 font-bold tracking-tight mb-10">Developed by <span class="text-custom-light1">Aarin Sheik</span></div>
+        <div class="text-3xl mb-10 mx-5 inline-block font-semibold text-custom-dark1 text-justify hover:scale-[1.2] transistion duration-300"><a target="_blank" href="https://github.com/aarinsheik"><i style="color:#DFD3C3" class="fa-brands fa-github fa-xl"></i></a></div>
+
+        <div class="text-xl text-[#FCFFE0] tracking-tighter text-start">
+          <h1 >This site leverages MongoDB for robust storage of user details, ensuring scalability and flexibility. 
+            It employs the Express.js framework to manage create, update, and delete operations, providing an efficient 
+            and streamlined backend architecture for handling user data operations with reliability and performance. 
+            The frontend design is crafted using Tailwind CSS, offering a modern, responsive, and visually appealing user
+            interface with ease of customization and rapid development.
+          </h1>
+
+          <div class="w-full flex justify-center"><h1 class="text-5xl tracking-tighter text-center mt-10 border-[#FCFFE0] border-b-2 pb-2 w-72">Tech Stack</h1></div>
+          
+          <div class="techStackImg w-full flex justify-around mt-10 flex-wrap gap-6">
+            <img src="/images/tailwind_css_logo.png" class="my-auto h-32 lg:h-48">
+            <img src="/images/nodeJS_img.png" class="h-32 lg:h-64">
+              <img src="/images/MongoDB_img.png" class="h-32 lg:h-64">
+              <img src="/images/expressJS_img.png" class="mt-5 h-32 lg:h-56">
+          </div>
+      </div>
+    </footer>
+</body>
+</html>

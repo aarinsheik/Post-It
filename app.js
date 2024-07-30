@@ -18,7 +18,8 @@ app.set('view engine','ejs')
 
 
 app.get('/', (req , res)=>{
-    res.send('hey. This is Post it')
+    // res.send('hey. This is Post it')
+    res.render('homepage')
 })
 
 app.get('/error', (req , res)=>{
@@ -291,7 +292,7 @@ app.get('/deletePost/:postId', async (req, res)=>{
     }
 })
 
-//adding like to the post 
+//like the post and update in post model's likes array
 app.get('/likePost/:postId' , isLoggedIn , async (req, res)=>{
 
     try{

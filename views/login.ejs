@@ -42,16 +42,21 @@
   </style>
 
 </head>
-<body class="bg-[#F3EACD] w-full overflow-hidden">
-  <nav class="w-full bg-custom-dark text-white py-4 px-10">
-    <div class="container mx-auto flex justify-start">
+<body class="bg-[#F3EACD] w-full">
+  <nav class="w-full bg-custom-dark text-white py-4 px-4 lg:px-10">
+    <div class="container mx-auto flex items-center">
       <h1 class="text-3xl font-bold text-gradient-color">Post-It</h1>
-      <div class='w-[50px] ml-6'><img src="/images/logo_img.png"/></div>
+      <div class="w-[50px] ml-6">
+        <img src="../images/logo_img.png" alt="Logo"/>
+      </div>
+      <div class="ml-auto text-[#DFD3C3] text-[20px] border-2 border-[#DFD3C3] hover:border-[#fbc486] hover:text-[#fbc486] rounded-full px-4 py-1">
+        <a href="/">Homepage</a>
+      </div>
     </div>
   </nav>
 
-  <div class="w-full h-full my-6 py-24 px-4 flex justify-center gap-20 items-center">
-    <div class="w-[400px] p-8 m-0 border-2 border-[#240A34] bg-custom-cream rounded-lg shadow-lg ">
+  <div class="w-full h-full my-6 py-24 px-4 flex flex-col lg:flex-row justify-center gap-10 lg:gap-20 items-center">
+    <div class="w-full max-w-[400px] p-8 m-0 border-2 border-[#240A34] bg-custom-cream rounded-lg shadow-lg">
       <h2 class="text-2xl font-bold mb-4 text-custom-dark">Login</h2>
       <form action="/loginUser" method="post">
         <div class="mb-4">
@@ -74,7 +79,9 @@
       </form>
       <a href="/signup" class="bg-light-BtnC text-white hover:bg-light-BtnCH font-bold py-2 px-4 rounded-lg block text-center">Sign Up</a>
     </div>
-    <div class="w-[500px] h-[420px] flex justify-start"><img src="/images/posting_img.jpg"/></div>
+    <div class="w-full max-w-[500px] h-[300px] lg:h-[420px] flex justify-center lg:justify-start">
+      <img src="/images/posting_img.jpg" class="object-contain max-h-full">
+    </div>
   </div>
 
   <!-- Add your JavaScript code here -->
