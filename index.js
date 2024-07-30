@@ -18,8 +18,14 @@ app.set('view engine','ejs')
 
 
 app.get('/', (req , res)=>{
+    try{
+        res.render('homepage')
+    }
+    catch (err){
+        console.log('error in uploading post',err)
+        res.redirect('/error')
+    }
     // res.send('hey. This is Post it')
-    res.render('homepage')
 })
 
 app.get('/error', (req , res)=>{
@@ -380,6 +386,6 @@ const PORT = process.env.PORT || 9001
 app.listen( PORT, (err)=>{
     console.log(`Server listenning on port ${PORT} ...\n\
         homepage - http://localhost:${PORT} \n\
-        signup - http://localhost:${PORT} /signup \n\
-        login - http://localhost:${PORT} /login `)
+        signup - http://localhost:${PORT}/signup \n\
+        login - http://localhost:${PORT}/login `)
 })
