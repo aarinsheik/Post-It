@@ -374,6 +374,7 @@ function isLoggedIn( req , res , next ){
     }
 }
 
+const PORT = process.env.PORT || 9001
 
 //server listenning in port 3000
 app.listen( 9002, (err)=>{
