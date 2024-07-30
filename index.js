@@ -376,9 +376,9 @@ function isLoggedIn( req , res , next ){
 
 
 //server listenning in port 3000
-app.listen( 3000, (err)=>{
-    console.log('Server listenning on port 3000 ...\n\
-        homepage - http://localhost:3000 \n\
-        signup - http://localhost:3000/signup \n\
-        login - http://localhost:3000/login ')
+app.listen( 9002, (err)=>{
+    console.log('Server listenning on port 9002 ...\n\
+        homepage - http://localhost:9002 \n\
+        signup - http://localhost:9002/signup \n\
+        login - http://localhost:9002/login ')
 })
