@@ -159,6 +159,7 @@ app.post('/loginUser' , async (req, res)=>{
         const { email , password } = req.body
     
         let user = await userModel.findOne({email})
+       
         if( !user ){
             res.render('login' ,{ wrongPW : false , wrongEmail : true } )
         }else{
