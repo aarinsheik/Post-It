@@ -82,6 +82,10 @@
         <button type="submit" class="bg-custom-dark bg-dark-BtnCH text-white font-bold py-2 px-4 rounded-lg w-full mb-4">Sign Up</button>
       </form>
       <a href="/login" class="bg-light-BtnC text-white bg-light-BtnCH font-bold py-2 px-4 rounded-lg block text-center">Login</a>
+      
+      <% if( newEmail===false ){ %>
+        <h1 class="text-sm font-medium text-red-800 mt-4">Oops.., User with this Email already exist !</h1>
+       <% } %>
     </div>
     <div class="w-full max-w-[600px] h-[300px] lg:h-[420px] flex justify-center lg:justify-start">
       <img src="/images/posting_img2.jpg" class="object-contain max-h-full">

@@ -96,7 +96,7 @@ app.post('/createPost', isLoggedIn , upload.single('image'), async (req, res, ne
 // rendering signup page
 app.get('/signup', (req, res)=>{
     try{
-        res.render('signup')
+        res.render('signup' , { newEmail:true })
     }
     catch (err){
         console.log(err)
@@ -123,7 +123,7 @@ app.post('/createUser' ,async (req , res)=>{
     
         let user = await userModel.findOne({email})           // to check whether any other user exist with the same email
         if( user ){
-            res.status(500).send('User already exist')
+            res.status(500).render( 'signup' ,{ newEmail:false })
         }else{
     
             bcrypt.genSalt( 10 , (err, salt)=>{
@@ -260,6 +260,7 @@ app.get('/deleteUserProfile', isLoggedIn , async (req, res)=>{
     try{
         const deleteUserId = req.user.userId
         const deletedUser = await userModel.findOneAndDelete({_id : deleteUserId} , {new:true})
+        
         console.log('Deleted User : ', deletedUser)
         res.cookie.token = ''
         res.redirect('/signup')
